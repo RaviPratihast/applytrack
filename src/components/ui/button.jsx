@@ -45,4 +45,6 @@ const Button = React.forwardRef(({ className, variant, size, asChild = false, ..
 })
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+export { Button };
+
+// Export constants or functions like buttonVariants from a separate file to avoid ESLint react-refresh warning
