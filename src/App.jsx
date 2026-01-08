@@ -1,11 +1,13 @@
-import { Button } from "@/components/ui/button"
+import Header from "./components/Header";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Button>Add Application</Button>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <Dashboard />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
