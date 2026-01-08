@@ -1,11 +1,9 @@
-import "./App.css";
-
 function App() {
   return (
-    <div className="app">
-      <h1>ApplyTrack</h1>
+    <div className="min-h-screen flex items-center justify-center text-xl">
+      Tailwind is finally working
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
