@@ -20,8 +20,11 @@ function ApplicationForm({ onSubmit, initialData }) {
   );
   const [notes, setNotes] = useState(() => initialData?.notes ?? "");
 
+  const isFormValid = company.trim() !== "" && role.trim() !== "";
+
   function handleSubmit(e) {
     e.preventDefault();
+    if (!isFormValid) return;
 
     onSubmit({
       company,
@@ -87,7 +90,8 @@ function ApplicationForm({ onSubmit, initialData }) {
 
       <Button
         type="submit"
-        className="application-form__submit rounded-sm bg-[#DDF159] text-black hover:bg-[#DDF159]/90"
+        disabled={!isFormValid}
+        className={`application-form__submit rounded-sm bg-[#DDF159] text-black hover:bg-[#DDF159]/90 ${!isFormValid ? "cursor-not-allowed opacity-50" : ""}`}
       >
         Save Application
       </Button>
