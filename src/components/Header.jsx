@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,9 +9,12 @@ import {
 import { Button } from "@/components/ui/button";
 import ApplicationForm from "./ApplicationForm";
 
-function Header() {
-  function handleAddApplication(data) {
-    console.log("New application:", data);
+function Header({ onAddApplication }) {
+  const [open, setOpen] = useState(false);
+
+  function handleSubmit(data) {
+    onAddApplication(data);
+    setOpen(false);
   }
 
   return (
@@ -18,7 +22,7 @@ function Header() {
       <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold">ApplyTrack</h1>
 
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="sm">Add Application</Button>
           </DialogTrigger>
@@ -28,7 +32,7 @@ function Header() {
               <DialogTitle>Add Application</DialogTitle>
             </DialogHeader>
 
-            <ApplicationForm onSubmit={handleAddApplication} />
+            <ApplicationForm onSubmit={handleSubmit} />
           </DialogContent>
         </Dialog>
       </div>

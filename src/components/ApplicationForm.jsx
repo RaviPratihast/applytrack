@@ -54,8 +54,12 @@ function ApplicationForm({ onSubmit }) {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={APPLICATION_STATUS.APPLIED}>Applied</SelectItem>
-            <SelectItem value={APPLICATION_STATUS.INTERVIEW}>Interview</SelectItem>
-            <SelectItem value={APPLICATION_STATUS.REJECTED}>Rejected</SelectItem>
+            <SelectItem value={APPLICATION_STATUS.INTERVIEW}>
+              Interview
+            </SelectItem>
+            <SelectItem value={APPLICATION_STATUS.REJECTED}>
+              Rejected
+            </SelectItem>
             <SelectItem value={APPLICATION_STATUS.OFFER}>Offer</SelectItem>
           </SelectContent>
         </Select>
