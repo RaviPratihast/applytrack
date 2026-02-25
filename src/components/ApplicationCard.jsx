@@ -34,55 +34,58 @@ function formatDate(dateString) {
   });
 }
 
+function getRelativeTime(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffMs = now - date;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDays < 0) return formatDate(dateString);
+  if (diffDays === 0) return "Applied today";
+  if (diffDays === 1) return "Applied yesterday";
+  if (diffDays < 7) return `Applied ${diffDays} days ago`;
+  if (diffDays < 30) return `Applied ${Math.floor(diffDays / 7)} wk ago`;
+  return formatDate(dateString);
+}
+
 function ApplicationCard({ application, onEdit, onDelete }) {
   return (
-    <Card className="application-card hover:shadow-md transition-shadow">
-      <CardHeader className="application-card__header">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <CardTitle className="application-card__title text-xl mb-1">
+    <Card className="application-card hover:shadow-md transition-shadow overflow-hidden">
+      <CardHeader className="application-card__header pb-2">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <CardTitle className="application-card__title text-xl mb-0.5 truncate">
               {application.company}
             </CardTitle>
-            <CardDescription className="application-card__role text-base font-medium text-foreground">
+            <CardDescription className="application-card__role text-base font-medium text-foreground truncate">
               {application.role}
             </CardDescription>
           </div>
+          <Badge variant={getStatusVariant(application.status)} className="shrink-0">
+            {formatStatus(application.status)}
+          </Badge>
         </div>
+        <p className="text-xs text-muted-foreground mt-1">
+          {getRelativeTime(application.appliedDate)}
+        </p>
       </CardHeader>
-      <CardContent className="application-card__content">
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Status</span>
-            <Badge variant={getStatusVariant(application.status)}>
-              {formatStatus(application.status)}
-            </Badge>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-muted-foreground">Applied</span>
-            <span className="text-sm font-medium">
-              {formatDate(application.appliedDate)}
-            </span>
-          </div>
-          {application.notes && (
-            <div className="pt-2 border-t">
-              <p className="text-sm text-muted-foreground line-clamp-2">
-                {application.notes}
-              </p>
-            </div>
-          )}
-        </div>
+      <CardContent className="application-card__content pt-0">
+        {application.notes && (
+          <p className="text-sm text-muted-foreground line-clamp-2">
+            {application.notes}
+          </p>
+        )}
       </CardContent>
       <CardFooter className="application-card__footer flex justify-end gap-2 pt-4">
         <Button
-          variant="outline"
           size="sm"
-          className="application-card__edit-button rounded-sm"
+          className="application-card__edit-button rounded-sm bg-[#DDF159] text-black hover:bg-[#DDF159]/90"
           onClick={() => onEdit(application)}
         >
           Edit
         </Button>
         <Button
-          variant="destructive"
+          variant="outline"
           size="sm"
           className="application-card__delete-button rounded-sm"
           onClick={() => {

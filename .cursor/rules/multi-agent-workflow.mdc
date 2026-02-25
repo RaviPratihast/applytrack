@@ -1,0 +1,15 @@
+---
+description: Use the multi-agent engineering pipeline (Requirement Analyst → Architect → Builder → Reviewer → Tester) when the user asks for it or for strict engineering quality
+alwaysApply: false
+---
+
+# Multi-Agent Engineering Workflow
+
+When the user invokes **multi-agent workflow**, **requirement analyst**, **architect**, **builder**, **reviewer**, **tester**, or asks for **strict engineering quality** on a feature or requirement:
+
+1. **Apply the skill** at `.cursor/skills/multi-agent-engineering/SKILL.md`.
+2. **Run the pipeline in order:** Requirement Analyst → Architect → Builder → Reviewer → Tester. Do not skip stages.
+3. **One role per response** unless the user asks for a single role only. End each response with that role’s handoff line (e.g. "Ready for ARCHITECT?", "Proceed to BUILDER?", "Send to REVIEWER?", "Send to TESTER?", "PRODUCTION READY", or "Return to BUILDER with fixes").
+4. **Feedback loop:** If TESTER finds issues, return to BUILDER (or ARCHITECT for design flaws). If ARCHITECT finds requirements unclear, return to REQUIREMENT ANALYST.
+
+Full role definitions and output formats: see `.cursor/skills/multi-agent-engineering/roles.md`.

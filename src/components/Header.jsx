@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,16 +10,15 @@ import ApplicationForm from "./ApplicationForm";
 import { createApplication } from "@/types/application";
 
 function Header({
+  open,
+  onOpenChange,
   onAddApplication,
   onUpdateApplication,
   editingApplication,
   onClearEdit,
 }) {
-  const [openByTrigger, setOpenByTrigger] = useState(false);
-  const open = openByTrigger || !!editingApplication;
-
   function handleOpenChange(value) {
-    setOpenByTrigger(value);
+    onOpenChange(value);
     if (!value) onClearEdit();
   }
 
@@ -34,15 +32,17 @@ function Header({
     } else {
       onAddApplication(createApplication(data));
     }
-    setOpenByTrigger(false);
+    onOpenChange(false);
   }
+
+  const isOpen = open ?? false;
 
   return (
     <div className="header sticky top-0 z-10 px-4 pt-4">
       <header className="header__bar mx-auto max-w-screen-2xl w-full rounded-lg border border-border bg-muted/50 shadow-md backdrop-blur-sm px-6 py-3 flex items-center justify-between">
         <h1 className="text-xl font-semibold tracking-tight">ApplyTrack</h1>
 
-        <Dialog open={open} onOpenChange={handleOpenChange}>
+        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
           <DialogTrigger asChild>
             <Button size="sm" className="header__add-button rounded-sm font-medium bg-[#DDF159] text-black hover:bg-[#DDF159]/90">Add Application</Button>
           </DialogTrigger>

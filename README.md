@@ -24,12 +24,12 @@ A focused job-application tracker: one place to log roles, status, and notes so 
 
 ## Tech stack
 
-| Area        | Choice           | Why                                      |
-|------------|-------------------|------------------------------------------|
-| Framework  | React 19          | Current React, hooks, component model   |
-| Build      | Vite 7            | Fast dev server and production builds   |
-| Styling    | Tailwind CSS      | Utility-first, design tokens, responsive |
-| Components | shadcn/ui (Radix) | Accessible primitives, unstyled + custom UI |
+| Area       | Choice            | Why                                                        |
+| ---------- | ----------------- | ---------------------------------------------------------- |
+| Framework  | React 19          | Current React, hooks, component model                      |
+| Build      | Vite 7            | Fast dev server and production builds                      |
+| Styling    | Tailwind CSS      | Utility-first, design tokens, responsive                   |
+| Components | shadcn/ui (Radix) | Accessible primitives, unstyled + custom UI                |
 | State      | React (useState)  | Local state + localStorage; no global store for this scope |
 
 ---
@@ -92,3 +92,5 @@ Data flow: **App** holds `applications` and passes down add/update/delete. **Hea
 - **Why** — Demonstrates component design, state handling, form behavior, and consistent styling within a single, understandable problem domain.
 
 Use it to walk through: data model first, then UI, then persistence and polish — and to discuss tradeoffs (e.g. localStorage vs backend, when to split components, how you’d add auth or sync later).
+
+**30 concepts you can learn from this codebase** — See [LEARN.md](./LEARN.md) for a list of React, state, forms, persistence, components, styling, and project-organization concepts demonstrated here, with pointers to where they appear.
