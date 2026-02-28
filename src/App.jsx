@@ -2,39 +2,86 @@ import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Dashboard from "./pages/Dashboard";
 
-const STORAGE_KEY = "applytrack_applications";
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 function App() {
-  const [applications, setApplications] = useState(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) return JSON.parse(stored);
-    } catch (error) {
-      console.error("Failed to parse stored applications:", error);
-    }
-    return [];
-  });
+  const [applications, setApplications] = useState([]);
   const [editingApplication, setEditingApplication] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Save applications to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(applications));
-  }, [applications]);
-
-  function addApplication(application) {
-    setApplications((prev) => [...prev, application]);
+  function loadApplications() {
+    setLoading(true);
+    setError(null);
+    fetch(`${API_BASE}/api/applications`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load");
+        return res.json();
+      })
+      .then((data) => {
+        setApplications(data.applications ?? []);
+        setError(null);
+      })
+      .catch((err) => {
+        console.error("Failed to load applications:", err);
+        setError("Failed to load applications.");
+        setApplications([]);
+      })
+      .finally(() => setLoading(false));
   }
 
-  function updateApplication(updatedApplication) {
-    setApplications((prev) =>
-      prev.map((app) =>
-        app.id === updatedApplication.id ? updatedApplication : app
+  useEffect(() => {
+    loadApplications();
+  }, []);
+
+  function addApplication(payload) {
+    fetch(`${API_BASE}/api/applications`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to add");
+        return res.json();
+      })
+      .then((data) => setApplications((prev) => [...prev, data]))
+      .catch((err) => {
+        console.error("Failed to add application:", err);
+        setError("Failed to add application.");
+      });
+  }
+
+  function updateApplication(updated) {
+    fetch(`${API_BASE}/api/applications/${updated.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updated),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update");
+        return res.json();
+      })
+      .then((data) =>
+        setApplications((prev) =>
+          prev.map((app) => (app.id === data.id ? data : app))
+        )
       )
-    );
+      .catch((err) => {
+        console.error("Failed to update application:", err);
+        setError("Failed to update application.");
+      });
   }
 
   function handleDeleteApplication(id) {
-    setApplications((prev) => prev.filter((app) => app.id !== id));
+    fetch(`${API_BASE}/api/applications/${id}`, { method: "DELETE" })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to delete");
+        setApplications((prev) => prev.filter((app) => app.id !== id));
+      })
+      .catch((err) => {
+        console.error("Failed to delete application:", err);
+        setError("Failed to delete application.");
+      });
   }
 
   return (
@@ -47,6 +94,9 @@ function App() {
       />
       <Dashboard
         applications={applications}
+        loading={loading}
+        error={error}
+        onRetry={loadApplications}
         onDeleteApplication={handleDeleteApplication}
         onEditApplication={setEditingApplication}
       />

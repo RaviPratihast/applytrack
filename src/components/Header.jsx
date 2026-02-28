@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ApplicationForm from "./ApplicationForm";
-import { createApplication } from "@/types/application";
 
 function Header({
   onAddApplication,
@@ -32,7 +31,7 @@ function Header({
       });
       onClearEdit();
     } else {
-      onAddApplication(createApplication(data));
+      onAddApplication(data);
     }
     setOpenByTrigger(false);
   }
