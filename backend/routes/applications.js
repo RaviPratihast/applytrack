@@ -20,12 +20,15 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
+  console.log("POST route hit");
+  console.log("Body:", req.body);
   const created = applicationsStore.createFromPayload(req.body);
   if (!created.ok) {
     return res.status(created.statusCode).json({ error: created.error });
   }
   const added = await applicationsStore.add(created.data);
   if (!added.ok) {
+    console.error("[POST /api/applications] add failed:", added.error);
     return res.status(added.statusCode).json({ error: added.error });
   }
   res.status(201).json(added.data);
