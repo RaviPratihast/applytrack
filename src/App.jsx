@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Dashboard from "./pages/Dashboard";
 
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3001";
 
 function App() {
   const [applications, setApplications] = useState([]);
