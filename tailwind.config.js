@@ -5,12 +5,19 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["DM Sans", "system-ui", "sans-serif"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        card: "var(--radius-card)",
       },
       colors: {
+        "app-accent": "var(--app-accent)",
+        "app-border": "var(--app-border)",
+        "app-dark": "var(--app-dark)",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

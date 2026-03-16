@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS tags (
+  id UUID PRIMARY KEY,
+  name TEXT UNIQUE NOT NULL,
+  color TEXT NOT NULL DEFAULT '#6B7280'
+);
+
+CREATE TABLE IF NOT EXISTS application_tags (
+  application_id UUID NOT NULL REFERENCES applications(id) ON DELETE CASCADE,
+  tag_id UUID NOT NULL REFERENCES tags(id) ON DELETE CASCADE,
+  PRIMARY KEY (application_id, tag_id)
+);

@@ -28,7 +28,11 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 9px
+    --radius: 10px;
+    --radius-card: 20px;
+    --app-accent: #DDF159;
+    --app-border: #EBEBEB;
+    --app-dark: #111111;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -64,5 +68,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "DM Sans", system-ui, sans-serif;
   }
 }

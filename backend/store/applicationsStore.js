@@ -14,11 +14,15 @@ function rowToApplication(row) {
     notes: row.notes ?? "",
     resumeVersion: row.resume_version ?? "",
     followUpDate: row.follow_up_date ?? null,
+    salaryRange: row.salary_range ?? "",
+    location: row.location ?? "",
+    jobUrl: row.job_url ?? "",
+    companySize: row.company_size ?? "",
   };
 }
 
 function parseBody(body) {
-  const { company, role, status, appliedDate, notes, resumeVersion, followUpDate } = body ?? {};
+  const { company, role, status, appliedDate, notes, resumeVersion, followUpDate, salaryRange, location, jobUrl, companySize } = body ?? {};
   const companyTrimmed = typeof company === "string" ? company.trim() : "";
   const roleTrimmed = typeof role === "string" ? role.trim() : "";
   const statusValue = VALID_STATUSES.includes(status) ? status : "applied";
@@ -33,6 +37,10 @@ function parseBody(body) {
     followUpDate === null || followUpDate === undefined || followUpDate === ""
       ? null
       : String(followUpDate).trim().slice(0, 10) || null;
+  const salaryRangeStr = typeof salaryRange === "string" ? salaryRange.trim() : "";
+  const locationStr = typeof location === "string" ? location.trim() : "";
+  const jobUrlStr = typeof jobUrl === "string" ? jobUrl.trim() : "";
+  const companySizeStr = typeof companySize === "string" ? companySize.trim() : "";
   return {
     company: companyTrimmed,
     role: roleTrimmed,
@@ -41,6 +49,10 @@ function parseBody(body) {
     notes: notesStr,
     resumeVersion: resumeVersionStr,
     followUpDate: followUp,
+    salaryRange: salaryRangeStr,
+    location: locationStr,
+    jobUrl: jobUrlStr,
+    companySize: companySizeStr,
   };
 }
 
@@ -76,11 +88,15 @@ async function add(application) {
     const notes = application.notes != null ? String(application.notes) : "";
     const resumeVersion = application.resumeVersion != null ? String(application.resumeVersion) : "";
     const followUpDate = application.followUpDate != null && application.followUpDate !== "" ? String(application.followUpDate).slice(0, 10) : null;
+    const salaryRange = application.salaryRange != null ? String(application.salaryRange) : "";
+    const location = application.location != null ? String(application.location) : "";
+    const jobUrl = application.jobUrl != null ? String(application.jobUrl) : "";
+    const companySize = application.companySize != null ? String(application.companySize) : "";
 
     await pool.query(
-      `INSERT INTO applications (id, company, role, status, applied_date, notes, resume_version, follow_up_date)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-      [id, company, role, status, appliedDate, notes, resumeVersion, followUpDate]
+      `INSERT INTO applications (id, company, role, status, applied_date, notes, resume_version, follow_up_date, salary_range, location, job_url, company_size)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)`,
+      [id, company, role, status, appliedDate, notes, resumeVersion, followUpDate, salaryRange, location, jobUrl, companySize]
     );
     return { ok: true, data: application };
   } catch (err) {
@@ -98,13 +114,18 @@ async function update(id, application) {
     const notes = application.notes != null ? String(application.notes) : "";
     const resumeVersion = application.resumeVersion != null ? String(application.resumeVersion) : "";
     const followUpDate = application.followUpDate != null && application.followUpDate !== "" ? String(application.followUpDate).slice(0, 10) : null;
+    const salaryRange = application.salaryRange != null ? String(application.salaryRange) : "";
+    const location = application.location != null ? String(application.location) : "";
+    const jobUrl = application.jobUrl != null ? String(application.jobUrl) : "";
+    const companySize = application.companySize != null ? String(application.companySize) : "";
 
     const result = await pool.query(
       `UPDATE applications
-       SET company = $1, role = $2, status = $3, applied_date = $4, notes = $5, resume_version = $6, follow_up_date = $7
-       WHERE id = $8
+       SET company = $1, role = $2, status = $3, applied_date = $4, notes = $5, resume_version = $6, follow_up_date = $7,
+           salary_range = $8, location = $9, job_url = $10, company_size = $11
+       WHERE id = $12
        RETURNING *`,
-      [company, role, status, appliedDate, notes, resumeVersion, followUpDate, id]
+      [company, role, status, appliedDate, notes, resumeVersion, followUpDate, salaryRange, location, jobUrl, companySize, id]
     );
     const row = result.rows[0];
     if (!row) return { ok: false, statusCode: 404, error: "Application not found" };

@@ -1,20 +1,18 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import ApplicationForm from "./ApplicationForm";
 
-function Header({
-  onAddApplication,
-  onUpdateApplication,
-  editingApplication,
-  onClearEdit,
-}) {
+const NAV_LINKS = [
+  { to: "/",          label: "Dashboard" },
+  { to: "/kanban",    label: "Kanban" },
+  { to: "/analytics", label: "Analytics" },
+];
+
+function Header({ onAddApplication, onUpdateApplication, editingApplication, onClearEdit }) {
   const [openByTrigger, setOpenByTrigger] = useState(false);
   const open = openByTrigger || !!editingApplication;
 
@@ -25,10 +23,7 @@ function Header({
 
   function handleSubmit(data) {
     if (editingApplication) {
-      onUpdateApplication({
-        ...editingApplication,
-        ...data,
-      });
+      onUpdateApplication({ ...editingApplication, ...data });
       onClearEdit();
     } else {
       onAddApplication(data);
@@ -37,20 +32,44 @@ function Header({
   }
 
   return (
-    <div className="header sticky top-0 z-10 px-4 pt-4">
-      <header className="header__bar mx-auto max-w-screen-2xl w-full rounded-lg border border-border bg-muted/50 shadow-md backdrop-blur-sm px-6 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-semibold tracking-tight">ApplyTrack</h1>
+    <div className="header sticky top-0 z-10 px-5 pt-5">
+      <header className="header__bar mx-auto max-w-[1400px] w-full h-14 rounded-card bg-white border border-app-border flex items-center justify-between gap-4 px-6 flex-shrink-0">
+        <div className="flex items-center gap-2">
+          <h1 className="text-xl font-semibold tracking-tight shrink-0 text-foreground">ApplyTrack</h1>
+        </div>
+
+        <nav className="flex items-center gap-1">
+          {NAV_LINKS.map(({ to, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === "/"}
+              className={({ isActive }) =>
+                `px-3 py-1.5 text-sm rounded-[10px] transition-colors ${
+                  isActive
+                    ? "bg-app-accent text-black font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                }`
+              }
+            >
+              {label}
+            </NavLink>
+          ))}
+        </nav>
 
         <Dialog open={open} onOpenChange={handleOpenChange}>
           <DialogTrigger asChild>
-            <Button size="sm" className="header__add-button rounded-sm font-medium bg-[#DDF159] text-black hover:bg-[#DDF159]/90">Add Application</Button>
+            <button
+              type="button"
+              className="rounded-[10px] px-[18px] py-2 bg-app-dark text-white text-sm font-medium hover:opacity-90 transition-opacity shrink-0"
+            >
+              Add Application
+            </button>
           </DialogTrigger>
-
-          <DialogContent className="header__dialog">
+          <DialogContent className="header__dialog max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Add Application</DialogTitle>
+              <DialogTitle>{editingApplication ? "Edit Application" : "Add Application"}</DialogTitle>
             </DialogHeader>
-
             <ApplicationForm
               key={editingApplication?.id ?? "new"}
               initialData={editingApplication}

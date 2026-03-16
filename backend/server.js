@@ -2,6 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import applicationsRouter from "./routes/applications.js";
+import eventsRouter from "./routes/events.js";
+import tagsRouter from "./routes/tags.js";
 import { testConnection } from "./db.js";
 
 const app = express();
@@ -24,6 +26,8 @@ app.get("/api/health/db", async (_req, res) => {
 });
 
 app.use("/api/applications", applicationsRouter);
+app.use("/api/applications/:applicationId/events", eventsRouter);
+app.use("/api/tags", tagsRouter);
 
 // 404 middleware - catch all routes that are not defined
 app.use((req, res) => {
