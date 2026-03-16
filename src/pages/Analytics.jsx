@@ -29,7 +29,7 @@ function getLast6Months() {
 
 function SummaryCard({ label, value, sub }) {
   return (
-    <div className="rounded-lg border bg-card p-4">
+    <div className="rounded-card border border-app-border bg-white p-6">
       <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">{label}</p>
       <p className="text-3xl font-bold">{value}</p>
       {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
@@ -74,8 +74,8 @@ function Analytics({ applications }) {
 
   if (total === 0) {
     return (
-      <main className="px-4 py-6 w-full flex-1">
-        <div className="mx-auto max-w-screen-2xl w-full px-6 flex items-center justify-center min-h-[50vh]">
+      <main className="px-5 py-5 w-full flex-1">
+        <div className="mx-auto max-w-[1400px] w-full flex items-center justify-center min-h-[50vh]">
           <p className="text-sm text-muted-foreground">Add some applications to see analytics.</p>
         </div>
       </main>
@@ -83,8 +83,8 @@ function Analytics({ applications }) {
   }
 
   return (
-    <main className="px-4 py-6 w-full flex-1">
-      <div className="mx-auto max-w-screen-2xl w-full px-6 space-y-8">
+    <main className="px-5 py-5 w-full flex-1 flex flex-col gap-3">
+      <div className="mx-auto max-w-[1400px] w-full flex flex-col gap-6">
         <div>
           <h2 className="text-2xl font-semibold mb-1">Analytics</h2>
           <p className="text-sm text-muted-foreground">Overview of your job search performance</p>

@@ -36,7 +36,7 @@ function ApplicationCard({ application, onEdit, onDelete, onView }) {
   return (
     <TooltipProvider>
       <>
-        <Card className="application-card hover:shadow-md transition-shadow">
+        <Card className="application-card hover:shadow-sm transition-shadow">
           <CardHeader className="application-card__header pb-2">
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
@@ -112,14 +112,14 @@ function ApplicationCard({ application, onEdit, onDelete, onView }) {
 
           <CardFooter className="flex justify-end gap-2 pt-4">
             {onView && (
-              <Button variant="ghost" size="sm" className="rounded-sm" onClick={() => onView(application)}>
+              <Button variant="ghost" size="sm" className="rounded-[10px]" onClick={() => onView(application)}>
                 View
               </Button>
             )}
-            <Button variant="outline" size="sm" className="rounded-sm" onClick={() => onEdit(application)}>
+            <Button variant="outline" size="sm" className="rounded-[10px]" onClick={() => onEdit(application)}>
               Edit
             </Button>
-            <Button variant="destructive" size="sm" className="rounded-sm" onClick={() => setConfirmOpen(true)}>
+            <Button variant="destructive" size="sm" className="rounded-[10px]" onClick={() => setConfirmOpen(true)}>
               Delete
             </Button>
           </CardFooter>
@@ -137,8 +137,8 @@ function ApplicationCard({ application, onEdit, onDelete, onView }) {
               </DialogDescription>
             </DialogHeader>
             <DialogFooter className="gap-2 sm:gap-0">
-              <Button variant="outline" size="sm" className="rounded-sm" onClick={() => setConfirmOpen(false)}>Cancel</Button>
-              <Button variant="destructive" size="sm" className="rounded-sm" onClick={() => { onDelete(application.id); setConfirmOpen(false); }}>Delete</Button>
+              <Button variant="outline" size="sm" className="rounded-[10px]" onClick={() => setConfirmOpen(false)}>Cancel</Button>
+              <Button variant="destructive" size="sm" className="rounded-[10px]" onClick={() => { onDelete(application.id); setConfirmOpen(false); }}>Delete</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

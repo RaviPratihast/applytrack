@@ -160,7 +160,7 @@ function ApplicationDetailDrawer({ application, onClose }) {
 
                 <div className="mt-4 space-y-2">
                   <Textarea
-                    className="rounded-sm text-sm"
+                    className="rounded-[10px] text-sm"
                     placeholder="Add a note to the timeline…"
                     value={noteText}
                     onChange={e => setNoteText(e.target.value)}
@@ -168,7 +168,7 @@ function ApplicationDetailDrawer({ application, onClose }) {
                   />
                   <Button
                     size="sm"
-                    className="rounded-sm bg-[#DDF159] text-black hover:bg-[#DDF159]/90"
+                    className="rounded-[10px] bg-app-accent text-black hover:opacity-90"
                     onClick={handleAddNote}
                     disabled={!noteText.trim() || addingNote}
                   >

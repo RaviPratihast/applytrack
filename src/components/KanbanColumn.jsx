@@ -40,7 +40,7 @@ function KanbanColumn({ id, label, applications, onEdit, onDelete, onView }) {
   return (
     <div
       ref={setNodeRef}
-      className={`rounded-lg border-2 ${style.border} ${style.bg} ${isOver ? "ring-2 ring-[#DDF159]" : ""} p-3 min-h-[200px] transition-all`}
+      className={`rounded-card border-2 ${style.border} ${style.bg} ${isOver ? "ring-2 ring-app-accent" : ""} p-4 min-h-[200px] transition-all`}
     >
       <div className="flex items-center justify-between mb-3">
         <h3
@@ -48,7 +48,7 @@ function KanbanColumn({ id, label, applications, onEdit, onDelete, onView }) {
         >
           {label}
         </h3>
-        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
+        <span className="text-xs font-medium text-muted-foreground bg-muted px-2 py-0.5 rounded-[10px]">
           {applications.length}
         </span>
       </div>

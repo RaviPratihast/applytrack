@@ -34,7 +34,7 @@ function Dashboard({ applications, loading, error, onRetry, onDeleteApplication,
   if (loading) {
     return (
       <main className="dashboard px-5 py-5 w-full flex flex-1">
-        <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex flex-col gap-3 flex items-center justify-center min-h-[50vh]">
+        <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex items-center justify-center min-h-[50vh]">
           <p className="text-sm text-muted-foreground">Loading applications…</p>
         </div>
       </main>
@@ -44,7 +44,7 @@ function Dashboard({ applications, loading, error, onRetry, onDeleteApplication,
   if (error) {
     return (
       <main className="dashboard px-5 py-5 w-full flex flex-1">
-        <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex flex-col gap-3 flex items-center justify-center min-h-[50vh]">
+        <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex items-center justify-center min-h-[50vh]">
           <div className="text-center text-muted-foreground space-y-3" role="alert" aria-live="polite">
             <p className="text-sm">{error}</p>
             <Button type="button" size="sm" onClick={onRetry} className="rounded-[10px] bg-app-accent text-black hover:opacity-90 font-medium">

@@ -45,9 +45,9 @@ function KanbanBoard({ applications, onUpdateApplication, onDeleteApplication, o
   }
 
   return (
-    <main className="px-4 py-6 w-full flex-1 overflow-x-auto">
-      <div className="mx-auto max-w-screen-2xl w-full px-6">
-        <div className="mb-6">
+    <main className="px-5 py-5 w-full flex-1 overflow-x-auto flex flex-col gap-3">
+      <div className="mx-auto max-w-[1400px] w-full flex flex-col gap-3">
+        <div>
           <h2 className="text-2xl font-semibold mb-1">Kanban Board</h2>
           <p className="text-sm text-muted-foreground">Drag cards between columns to update status</p>
         </div>
@@ -57,7 +57,7 @@ function KanbanBoard({ applications, onUpdateApplication, onDeleteApplication, o
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-start">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-start flex-1">
             {COLUMNS.map(col => (
               <KanbanColumn
                 key={col.id}

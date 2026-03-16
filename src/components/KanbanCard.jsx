@@ -23,7 +23,7 @@ function KanbanCard({ application, onEdit, onDelete, onView, isDragging }) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-background rounded-md border p-3 select-none ${isDragging ? "shadow-lg rotate-1" : "hover:shadow-sm"} transition-shadow`}
+      className={`bg-white rounded-[10px] border border-app-border p-3 select-none ${isDragging ? "shadow-lg rotate-1" : "hover:shadow-sm"} transition-shadow`}
     >
       <div className="flex items-start gap-2">
         <button
@@ -56,7 +56,7 @@ function KanbanCard({ application, onEdit, onDelete, onView, isDragging }) {
           <Button
             variant="ghost"
             size="sm"
-            className="h-6 px-2 text-xs rounded-sm"
+            className="h-6 px-2 text-xs rounded-[10px]"
             onClick={() => onView(application)}
           >
             View
@@ -65,7 +65,7 @@ function KanbanCard({ application, onEdit, onDelete, onView, isDragging }) {
         <Button
           variant="ghost"
           size="sm"
-          className="h-6 px-2 text-xs rounded-sm"
+          className="h-6 px-2 text-xs rounded-[10px]"
           onClick={() => onEdit(application)}
         >
           Edit
