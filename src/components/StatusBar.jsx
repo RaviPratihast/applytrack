@@ -15,15 +15,33 @@ function StatusBar({ applications }) {
 
   return (
     <div className="flex gap-3 h-[100px] flex-shrink-0">
-      {STATUS_CONFIG.map(({ key, label, color }) => (
-        <div
-          key={key}
-          className="flex-1 min-w-0 flex flex-col justify-between rounded-card bg-white border border-app-border py-5 px-6"
-        >
-          <span className="text-sm font-medium text-muted-foreground">{label}</span>
-          <span className="text-2xl font-semibold" style={{ color }}>{counts[key] ?? 0}</span>
-        </div>
-      ))}
+      {STATUS_CONFIG.map(({ key, label, color }) => {
+        const isOffer = key === APPLICATION_STATUS.OFFER;
+        return (
+          <div
+            key={key}
+            className={`flex-1 min-w-0 flex flex-col justify-between rounded-card border py-5 px-6 ${
+              isOffer
+                ? "bg-app-accent border-app-accent"
+                : "bg-white border-app-border"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <span
+                className="w-2 h-2 rounded-full shrink-0"
+                style={{ backgroundColor: color }}
+                aria-hidden
+              />
+              <span className={`text-sm font-medium ${isOffer ? "text-black" : "text-muted-foreground"}`}>
+                {label}
+              </span>
+            </div>
+            <span className={`text-2xl font-semibold ${isOffer ? "text-black" : ""}`} style={isOffer ? undefined : { color }}>
+              {counts[key] ?? 0}
+            </span>
+          </div>
+        );
+      })}
     </div>
   );
 }

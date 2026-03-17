@@ -12,6 +12,7 @@ function App() {
   const [applications, setApplications] = useState([]);
   const [editingApplication, setEditingApplication] = useState(null);
   const [viewingApplication, setViewingApplication] = useState(null);
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -86,6 +87,8 @@ function App() {
         onUpdateApplication={updateApplication}
         editingApplication={editingApplication}
         onClearEdit={() => setEditingApplication(null)}
+        addDialogOpen={addDialogOpen}
+        onCloseAddDialog={() => setAddDialogOpen(false)}
       />
       <Routes>
         <Route
@@ -96,10 +99,10 @@ function App() {
               loading={loading}
               error={error}
               onRetry={loadApplications}
-              onDeleteApplication={handleDeleteApplication}
               onEditApplication={setEditingApplication}
               onViewApplication={setViewingApplication}
               onExportCsv={handleExportCsv}
+              onAddApplicationOpen={() => setAddDialogOpen(true)}
             />
           }
         />

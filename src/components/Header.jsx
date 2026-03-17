@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Plus } from "lucide-react";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import ApplicationForm from "./ApplicationForm";
 
 const NAV_LINKS = [
@@ -12,13 +12,16 @@ const NAV_LINKS = [
   { to: "/analytics", label: "Analytics" },
 ];
 
-function Header({ onAddApplication, onUpdateApplication, editingApplication, onClearEdit }) {
+function Header({ onAddApplication, onUpdateApplication, editingApplication, onClearEdit, addDialogOpen, onCloseAddDialog }) {
   const [openByTrigger, setOpenByTrigger] = useState(false);
-  const open = openByTrigger || !!editingApplication;
+  const open = openByTrigger || !!editingApplication || addDialogOpen;
 
   function handleOpenChange(value) {
     setOpenByTrigger(value);
-    if (!value) onClearEdit();
+    if (!value) {
+      onClearEdit();
+      onCloseAddDialog?.();
+    }
   }
 
   function handleSubmit(data) {
@@ -35,6 +38,7 @@ function Header({ onAddApplication, onUpdateApplication, editingApplication, onC
     <div className="header sticky top-0 z-10 px-5 pt-5">
       <header className="header__bar mx-auto max-w-[1400px] w-full h-14 rounded-card bg-white border border-app-border flex items-center justify-between gap-4 px-6 flex-shrink-0">
         <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-app-accent shrink-0" aria-hidden />
           <h1 className="text-xl font-semibold tracking-tight shrink-0 text-foreground">ApplyTrack</h1>
         </div>
 
@@ -61,8 +65,9 @@ function Header({ onAddApplication, onUpdateApplication, editingApplication, onC
           <DialogTrigger asChild>
             <button
               type="button"
-              className="rounded-[10px] px-[18px] py-2 bg-app-dark text-white text-sm font-medium hover:opacity-90 transition-opacity shrink-0"
+              className="rounded-[10px] px-4 py-2 bg-app-dark text-white text-sm font-medium hover:opacity-90 transition-opacity shrink-0 inline-flex items-center gap-2"
             >
+              <Plus className="h-4 w-4" />
               Add Application
             </button>
           </DialogTrigger>

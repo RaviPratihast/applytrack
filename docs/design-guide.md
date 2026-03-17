@@ -30,7 +30,7 @@ Use the accent sparingly — one clear moment per view (e.g. main CTA or active 
 | Foreground | `hsl(var(--foreground))` | Primary text (~black) |
 | Muted text | `hsl(var(--muted-foreground))` | Secondary text, captions |
 | Border     | `#EBEBEB` / `hsl(var(--border))` | Inputs, dividers, card edges |
-| Dark button | `#111111` | Primary-style buttons (e.g. “Add application”) |
+| Dark button | `#111111` | Primary-style buttons (e.g. "Add application") |
 
 ### Status (application pipeline)
 | Status     | Hex       | Use for |
@@ -58,7 +58,7 @@ Load DM Sans (e.g. Google Fonts) and set as default in CSS.
 ### Scale and usage
 | Element   | Size   | Weight   | Usage |
 |----------|--------|----------|--------|
-| Page title | 2xl (e.g. 1.5rem) | Semibold | “Applications”, “Kanban Board”, “Analytics” |
+| Page title | 2xl (e.g. 1.5rem) | Semibold | "Applications", "Kanban Board", "Analytics" |
 | Card/section title | lg–xl | Semibold | Section headers, drawer title |
 | Body / list | base (1rem) | Regular / Medium | Descriptions, list content |
 | Labels, meta | sm (0.875rem) | Medium | Dates, salary, resume version, labels |
