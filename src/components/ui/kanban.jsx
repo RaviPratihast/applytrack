@@ -275,7 +275,7 @@ function Kanban(props) {
       if (event.activatorEvent.defaultPrevented) return;
       setActiveId(event.active.id);
     },
-    [kanbanProps.onDragStart]
+    [kanbanProps]
   );
 
   const onDragOver = React.useCallback(
@@ -335,7 +335,7 @@ function Kanban(props) {
         hasMovedRef.current = true;
       }
     },
-    [value, getColumn, getItemValue, onValueChange, kanbanProps.onDragOver]
+    [value, getColumn, getItemValue, onValueChange, kanbanProps]
   );
 
   const onDragEnd = React.useCallback(
@@ -425,7 +425,7 @@ function Kanban(props) {
       getItemValue,
       onValueChange,
       onMove,
-      kanbanProps.onDragEnd,
+      kanbanProps,
     ]
   );
 
@@ -438,7 +438,7 @@ function Kanban(props) {
       setActiveId(null);
       hasMovedRef.current = false;
     },
-    [kanbanProps.onDragCancel]
+    [kanbanProps]
   );
 
   const announcements = React.useMemo(
@@ -715,9 +715,9 @@ const KanbanColumn = React.forwardRef(function KanbanColumn(props, ref) {
   );
 
   const items = React.useMemo(() => {
-    const items = context.items[value] ?? [];
-    return items.map((item) => context.getItemValue(item));
-  }, [context.items, value, context.getItemValue]);
+    const colItems = context.items[value] ?? [];
+    return colItems.map((item) => context.getItemValue(item));
+  }, [context, value]);
 
   const columnContext = React.useMemo(
     () => ({

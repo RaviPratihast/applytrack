@@ -7,7 +7,6 @@ import tagsRouter from "./routes/tags.js";
 import { testConnection } from "./db.js";
 
 const app = express();
-// eslint-disable-next-line no-undef -- process is a Node.js global
 const PORT = process.env.PORT ?? 3001;
 
 app.use(cors());

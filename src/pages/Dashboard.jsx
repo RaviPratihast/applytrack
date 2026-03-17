@@ -56,7 +56,7 @@ function getFollowUpLabel(dateString) {
   return formatShortDate(dateString);
 }
 
-function Dashboard({ applications, loading, error, onRetry, onEditApplication, onViewApplication, onExportCsv, onAddApplicationOpen }) {
+function Dashboard({ applications, loading, error, onRetry, onViewApplication, onExportCsv, onAddApplicationOpen }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sortBy, setSortBy] = useState("date-desc");

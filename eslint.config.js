@@ -32,4 +32,10 @@ export default defineConfig([
       globals: globals.node,
     },
   },
+  {
+    files: ["backend/**/*.js"],
+    languageOptions: {
+      globals: globals.node,
+    },
+  },
 ]);

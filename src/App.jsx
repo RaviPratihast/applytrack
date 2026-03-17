@@ -36,7 +36,10 @@ function App() {
       .finally(() => setLoading(false));
   }
 
-  useEffect(() => { loadApplications(); }, []);
+  useEffect(() => {
+    const tid = setTimeout(loadApplications, 0);
+    return () => clearTimeout(tid);
+  }, []);
 
   function addApplication(payload) {
     fetch(`${API_BASE}/api/applications`, {

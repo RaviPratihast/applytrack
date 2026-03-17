@@ -44,8 +44,10 @@ function ApplicationDetailDrawer({ application, onClose }) {
 
   useEffect(() => {
     if (!application) return;
-    setEvents([]);
-    setTags([]);
+    const tid = setTimeout(() => {
+      setEvents([]);
+      setTags([]);
+    }, 0);
     fetch(`${API_BASE}/api/applications/${application.id}/events`)
       .then(r => r.json())
       .then(d => setEvents(d.events ?? []))
@@ -54,6 +56,7 @@ function ApplicationDetailDrawer({ application, onClose }) {
       .then(r => r.json())
       .then(d => setTags(d.tags ?? []))
       .catch(() => {});
+    return () => clearTimeout(tid);
   }, [application]);
 
   function handleAddNote() {

@@ -3,7 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-function KanbanCard({ application, onEdit, onDelete, onView, isDragging }) {
+function KanbanCard({ application, onEdit, onView, isDragging }) {
   const {
     attributes,
     listeners,
