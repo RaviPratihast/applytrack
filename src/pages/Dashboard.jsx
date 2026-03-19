@@ -14,6 +14,7 @@ const STATUS_COLORS = {
 };
 
 const AVATAR_COLORS = ["#93c5fd", "#fcd34d", "#86efac", "#fca5a5", "#a5b4fc"];
+const AVATAR_TEXT_COLORS = ["#1e40af", "#b45309", "#166534", "#b91c1c", "#3730a3"];
 
 function sortApplications(apps, sortBy) {
   return [...apps].sort((a, b) => {
@@ -33,9 +34,10 @@ function getInitial(str) {
   return (str || "?").charAt(0).toUpperCase();
 }
 
-function getAvatarColor(company) {
+function getAvatarColors(company) {
   const i = (company || "").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  return AVATAR_COLORS[Math.abs(i) % AVATAR_COLORS.length];
+  const idx = Math.abs(i) % AVATAR_COLORS.length;
+  return { bg: AVATAR_COLORS[idx], text: AVATAR_TEXT_COLORS[idx] };
 }
 
 function isOverdue(dateString) {
@@ -115,7 +117,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
 
   if (loading) {
     return (
-      <main className="dashboard px-5 py-5 w-full flex flex-1">
+      <main className="dashboard pt-3 px-5 pb-5 w-full flex flex-1">
         <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex items-center justify-center min-h-[50vh]">
           <p className="text-sm text-muted-foreground">Loading applications…</p>
         </div>
@@ -125,7 +127,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
 
   if (error) {
     return (
-      <main className="dashboard px-5 py-5 w-full flex flex-1">
+      <main className="dashboard pt-3 px-5 pb-5 w-full flex flex-1">
         <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex items-center justify-center min-h-[50vh]">
           <div className="text-center text-muted-foreground space-y-3" role="alert" aria-live="polite">
             <p className="text-sm">{error}</p>
@@ -144,8 +146,8 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
   }
 
   return (
-    <main className="dashboard px-5 py-5 w-full flex flex-1 flex-col gap-4">
-      <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex flex-col gap-4">
+    <main className="dashboard w-full flex flex-1 flex-col pt-3 px-5 pb-5">
+      <div className="dashboard__inner mx-auto max-w-[1400px] w-full flex flex-col gap-3">
         <StatusBar applications={applications} />
         <FilterBar
           search={search}
@@ -162,41 +164,54 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
           <div className="lg:col-span-2 flex flex-col gap-6">
             {/* Recent Applications */}
             <div className="rounded-card border border-app-border bg-white overflow-hidden">
-              <div className="px-6 py-4 border-b border-app-border flex items-center justify-between">
-                <h2 className="text-lg font-semibold">Recent Applications</h2>
+              <div className="px-6 pt-5 pb-4 border-b border-app-border flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-foreground">Recent Applications</h2>
                 <span className="text-sm text-muted-foreground">{filtered.length} total</span>
               </div>
               <div className="divide-y divide-app-border">
                 {recentApplications.length === 0 ? (
-                  <div className="px-6 py-8 text-center text-sm text-muted-foreground">
+                  <div className="p-6 py-8 text-center text-sm text-muted-foreground">
                     No applications yet. Click &quot;Add Application&quot; to start.
                   </div>
                 ) : (
-                  recentApplications.map((app) => (
-                    <button
-                      key={app.id}
-                      type="button"
-                      onClick={() => onViewApplication(app)}
-                      className="w-full px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/50 transition-colors"
-                    >
-                      <div
-                                        className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium text-white shrink-0"
-                                        style={{ backgroundColor: getAvatarColor(app.company) }}
+                  recentApplications.map((app) => {
+                    const avatarColors = getAvatarColors(app.company);
+                    const statusColor = STATUS_COLORS[app.status] ?? "#6b7280";
+                    return (
+                      <button
+                        key={app.id}
+                        type="button"
+                        onClick={() => onViewApplication(app)}
+                        className="w-full min-h-[48px] px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/50 active:bg-muted/70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       >
-                        {getInitial(app.company)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">{app.company} ({app.role})</p>
-                        <p className="text-xs text-muted-foreground">{formatShortDate(app.appliedDate)}</p>
-                      </div>
-                      <span
-                                        className="text-xs font-medium shrink-0"
-                                        style={{ color: STATUS_COLORS[app.status] ?? "#6b7280" }}
-                      >
-                        {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
-                      </span>
-                    </button>
-                  ))
+                        <div
+                          className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold shrink-0"
+                          style={{ backgroundColor: avatarColors.bg, color: avatarColors.text }}
+                          aria-hidden
+                        >
+                          {getInitial(app.company)}
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <p className="font-semibold text-foreground truncate">{app.company}</p>
+                          <p className="text-sm text-muted-foreground truncate">{app.role || "—"}</p>
+                        </div>
+                        <div className="w-24 flex flex-col items-end gap-0.5 shrink-0">
+                          <span
+                            className="text-xs font-medium px-2 py-0.5 rounded-full"
+                            style={{
+                              backgroundColor: `${statusColor}20`,
+                              color: statusColor,
+                            }}
+                          >
+                            {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                          </span>
+                          <span className="text-xs text-muted-foreground">
+                            {formatShortDate(app.appliedDate)}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })
                 )}
               </div>
             </div>
@@ -228,7 +243,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
           <div className="flex flex-col gap-6">
             {/* Follow-ups */}
             <div className="rounded-card border border-app-border bg-white overflow-hidden">
-              <div className="px-6 py-4 border-b border-app-border flex items-center justify-between">
+              <div className="p-6 pb-4 border-b border-app-border flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Follow-ups</h2>
                 {overdueCount > 0 && (
                   <span className="text-xs font-medium text-destructive">{overdueCount} overdue</span>
@@ -248,7 +263,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
                         key={app.id}
                         type="button"
                         onClick={() => onViewApplication(app)}
-                        className={`w-full px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/50 transition-colors ${
+                        className={`w-full min-h-[48px] px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/50 transition-colors ${
                           overdue ? "bg-destructive/5" : isTomorrow ? "bg-[#eab308]/5" : ""
                         }`}
                       >

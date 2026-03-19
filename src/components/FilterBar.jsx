@@ -22,7 +22,7 @@ const SORT_OPTIONS = [
 
 function FilterBar({ search, onSearchChange, statusFilter, onStatusFilterChange, sortBy, onSortByChange, onExportCsv }) {
   return (
-    <div className="flex items-center gap-3 flex-shrink-0 h-10">
+    <div className="flex items-center gap-2 flex-shrink-0 min-h-[48px]">
       <div className="relative flex-1 min-w-48 h-10">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
         <Input

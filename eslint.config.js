@@ -38,4 +38,11 @@ export default defineConfig([
       globals: globals.node,
     },
   },
+  {
+    files: ["extension/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2020,
+      globals: { ...globals.browser, chrome: "readonly" },
+    },
+  },
 ]);

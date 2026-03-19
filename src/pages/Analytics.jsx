@@ -74,7 +74,7 @@ function Analytics({ applications }) {
 
   if (total === 0) {
     return (
-      <main className="px-5 py-5 w-full flex-1">
+      <main className="pt-3 px-5 pb-5 w-full flex-1">
         <div className="mx-auto max-w-[1400px] w-full flex items-center justify-center min-h-[50vh]">
           <p className="text-sm text-muted-foreground">Add some applications to see analytics.</p>
         </div>
@@ -83,7 +83,7 @@ function Analytics({ applications }) {
   }
 
   return (
-    <main className="px-5 py-5 w-full flex-1 flex flex-col gap-3">
+    <main className="pt-3 px-5 pb-5 w-full flex-1 flex flex-col gap-3">
       <div className="mx-auto max-w-[1400px] w-full flex flex-col gap-6">
         <div>
           <h2 className="text-2xl font-semibold mb-1">Analytics</h2>

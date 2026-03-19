@@ -1,0 +1,79 @@
+/* design-guide: accent #DDF159, radius 10px, DM Sans, spacing */
+body {
+  margin: 0;
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 14px;
+  color: #111111;
+  background: #ffffff;
+  width: 280px;
+}
+
+.popup {
+  padding: 20px 24px;
+}
+
+.popup-title {
+  margin: 0 0 8px 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.popup-desc {
+  margin: 0 0 16px 0;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+.popup-field {
+  margin-bottom: 16px;
+}
+
+.popup-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+}
+
+.popup-field input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 40px;
+  padding: 0 12px;
+  border: 1.5px solid #ebebeb;
+  border-radius: 10px;
+  font: inherit;
+}
+
+.popup-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.popup-actions button {
+  padding: 8px 16px;
+  border-radius: 10px;
+  font:
+    500 0.875rem "DM Sans",
+    system-ui,
+    sans-serif;
+  cursor: pointer;
+}
+
+#open-dashboard {
+  border: 1.5px solid #ebebeb;
+  background: #ffffff;
+  color: #111111;
+}
+
+#save-settings {
+  background: #ddf159;
+  color: #111111;
+  border: none;
+}
+
+#save-settings:hover,
+#open-dashboard:hover {
+  opacity: 0.9;
+}

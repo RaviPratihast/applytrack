@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ApplyTrack</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="popup">
+      <h1 class="popup-title">ApplyTrack</h1>
+      <p class="popup-desc">
+        Save job applications to your dashboard while you apply.
+      </p>
+      <div class="popup-field">
+        <label for="api-url">API URL</label>
+        <input id="api-url" type="text" placeholder="http://localhost:3001" />
+      </div>
+      <div class="popup-field">
+        <label for="dashboard-url">Dashboard URL</label>
+        <input
+          id="dashboard-url"
+          type="text"
+          placeholder="http://localhost:5173"
+        />
+      </div>
+      <div class="popup-actions">
+        <button id="open-dashboard" type="button">Open dashboard</button>
+        <button id="save-settings" type="button">Save</button>
+      </div>
+    </div>
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>

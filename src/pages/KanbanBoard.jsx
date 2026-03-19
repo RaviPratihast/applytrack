@@ -111,7 +111,7 @@ function KanbanBoardPage({
   }
 
   return (
-    <main className="px-5 py-5 w-full flex-1 overflow-x-auto flex flex-col gap-3">
+    <main className="pt-3 px-5 pb-5 w-full flex-1 overflow-x-auto flex flex-col gap-3">
       <div className="mx-auto max-w-[1400px] w-full flex flex-col gap-3">
         <div>
           <h2 className="text-2xl font-semibold mb-1">Kanban Board</h2>
