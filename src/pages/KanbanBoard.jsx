@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/kanban";
 import { Button } from "@/components/ui/button";
 import { APPLICATION_STATUS } from "@/types/application";
+import { formatShortDate } from "@/lib/dates";
 
 const COLUMN_ORDER = [
   APPLICATION_STATUS.APPLIED,
@@ -56,10 +57,7 @@ function ApplicationCard({ application, onEdit, onView }) {
       <p className="text-xs text-muted-foreground truncate">{application.role}</p>
       {application.appliedDate && (
         <p className="text-xs text-muted-foreground/60">
-          {new Date(application.appliedDate).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          })}
+          {formatShortDate(application.appliedDate)}
         </p>
       )}
       <div className="flex justify-end gap-1 mt-1">

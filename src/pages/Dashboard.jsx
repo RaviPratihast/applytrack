@@ -5,6 +5,7 @@ import StatusBar from "@/components/StatusBar";
 import FilterBar from "@/components/FilterBar";
 import { Button } from "@/components/ui/button";
 import { APPLICATION_STATUS } from "@/types/application";
+import { compareDatesAsc, compareDatesDesc, formatShortDate, isPastDate, parseDateOnlyLocal } from "@/lib/dates";
 
 const STATUS_COLORS = {
   [APPLICATION_STATUS.APPLIED]: "#3b82f6",
@@ -18,16 +19,11 @@ const AVATAR_TEXT_COLORS = ["#1e40af", "#b45309", "#166534", "#b91c1c", "#3730a3
 
 function sortApplications(apps, sortBy) {
   return [...apps].sort((a, b) => {
-    if (sortBy === "date-asc") return new Date(a.appliedDate) - new Date(b.appliedDate);
+    if (sortBy === "date-asc") return compareDatesAsc(a.appliedDate, b.appliedDate);
     if (sortBy === "company-asc") return a.company.localeCompare(b.company);
     if (sortBy === "company-desc") return b.company.localeCompare(a.company);
-    return new Date(b.appliedDate) - new Date(a.appliedDate);
+    return compareDatesDesc(a.appliedDate, b.appliedDate);
   });
-}
-
-function formatShortDate(dateString) {
-  if (!dateString) return "—";
-  return new Date(dateString).toLocaleDateString("en-US", { month: "short", day: "numeric" });
 }
 
 function getInitial(str) {
@@ -42,7 +38,7 @@ function getAvatarColors(company) {
 
 function isOverdue(dateString) {
   if (!dateString) return false;
-  return new Date(dateString) < new Date();
+  return isPastDate(dateString);
 }
 
 function getFollowUpLabel(dateString) {
@@ -110,7 +106,8 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
   const thisMonth = useMemo(() => {
     const now = new Date();
     return applications.filter((a) => {
-      const d = new Date(a.appliedDate);
+      const d = parseDateOnlyLocal(a.appliedDate);
+      if (!d) return false;
       return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
     }).length;
   }, [applications]);

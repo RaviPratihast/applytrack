@@ -3,6 +3,7 @@ import {
   PieChart, Pie, Cell,
 } from "recharts";
 import { APPLICATION_STATUS } from "@/types/application";
+import { monthKey } from "@/lib/dates";
 
 const STATUS_COLORS = {
   [APPLICATION_STATUS.APPLIED]:   "#3b82f6",
@@ -10,12 +11,6 @@ const STATUS_COLORS = {
   [APPLICATION_STATUS.OFFER]:     "#22c55e",
   [APPLICATION_STATUS.REJECTED]:  "#ef4444",
 };
-
-function getMonthKey(dateStr) {
-  if (!dateStr) return null;
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("en-US", { month: "short", year: "2-digit" });
-}
 
 function getLast6Months() {
   const months = [];
@@ -55,7 +50,7 @@ function Analytics({ applications }) {
   const monthCounts = {};
   months.forEach(m => { monthCounts[m] = 0; });
   applications.forEach(a => {
-    const key = getMonthKey(a.appliedDate);
+    const key = monthKey(a.appliedDate);
     if (key && monthCounts[key] !== undefined) monthCounts[key]++;
   });
   const barData = months.map(m => ({ month: m, applications: monthCounts[m] }));

@@ -10,6 +10,7 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { AlertCircle, ExternalLink } from "lucide-react";
 import { APPLICATION_STATUS } from "@/types/application";
+import { formatLongDate, isPastDate } from "@/lib/dates";
 
 function getStatusVariant(status) {
   return { [APPLICATION_STATUS.APPLIED]: "applied", [APPLICATION_STATUS.INTERVIEW]: "interview", [APPLICATION_STATUS.REJECTED]: "rejected", [APPLICATION_STATUS.OFFER]: "offer" }[status] || "default";
@@ -19,14 +20,9 @@ function formatStatus(status) {
   return status.charAt(0).toUpperCase() + status.slice(1);
 }
 
-function formatDate(dateString) {
-  if (!dateString) return null;
-  return new Date(dateString).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
-}
-
 function isOverdue(dateString) {
   if (!dateString) return false;
-  return new Date(dateString) < new Date();
+  return isPastDate(dateString);
 }
 
 function ApplicationCard({ application, onEdit, onDelete, onView }) {
@@ -57,7 +53,7 @@ function ApplicationCard({ application, onEdit, onDelete, onView }) {
           <CardContent className="application-card__content space-y-2 pt-0">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Applied</span>
-              <span className="font-medium">{formatDate(application.appliedDate) ?? "—"}</span>
+              <span className="font-medium">{formatLongDate(application.appliedDate) ?? "—"}</span>
             </div>
 
             {application.salaryRange && (
@@ -86,7 +82,7 @@ function ApplicationCard({ application, onEdit, onDelete, onView }) {
                       <TooltipContent>Follow-up date has passed</TooltipContent>
                     </Tooltip>
                   )}
-                  {formatDate(application.followUpDate)}
+                  {formatLongDate(application.followUpDate)}
                 </span>
               </div>
             )}

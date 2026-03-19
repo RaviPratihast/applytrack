@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GripVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { formatShortDate } from "@/lib/dates";
 
 function KanbanCard({ application, onEdit, onView, isDragging }) {
   const {
@@ -43,10 +44,7 @@ function KanbanCard({ application, onEdit, onView, isDragging }) {
           </p>
           {application.appliedDate && (
             <p className="text-xs text-muted-foreground/60 mt-1">
-              {new Date(application.appliedDate).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })}
+              {formatShortDate(application.appliedDate)}
             </p>
           )}
         </div>
