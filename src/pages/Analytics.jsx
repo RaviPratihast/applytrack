@@ -24,9 +24,9 @@ function getLast6Months() {
 
 function SummaryCard({ label, value, sub }) {
   return (
-    <div className="rounded-card border border-app-border bg-white p-6">
+    <div className="rounded-card border border-app-border bg-card p-6 text-card-foreground">
       <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">{label}</p>
-      <p className="text-3xl font-bold">{value}</p>
+      <p className="text-3xl font-bold text-foreground">{value}</p>
       {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
     </div>
   );

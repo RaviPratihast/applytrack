@@ -24,7 +24,7 @@ function KanbanCard({ application, onEdit, onView, isDragging }) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-white rounded-[10px] border border-app-border p-3 select-none ${isDragging ? "shadow-lg rotate-1" : "hover:shadow-sm"} transition-shadow`}
+      className={`bg-card text-card-foreground rounded-[10px] border border-app-border p-3 select-none ${isDragging ? "shadow-lg rotate-1" : "hover:shadow-sm"} transition-shadow`}
     >
       <div className="flex items-start gap-2">
         <button
