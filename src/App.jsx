@@ -6,85 +6,164 @@ import KanbanBoard from "./pages/KanbanBoard";
 import Analytics from "./pages/Analytics";
 import ApplicationDetailDrawer from "./components/ApplicationDetailDrawer";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3001";
+const DEMO_APPLICATIONS = [
+  {
+    id: "demo-1",
+    company: "Razorpay",
+    role: "Frontend Engineer",
+    status: "interview",
+    appliedDate: "2026-03-08",
+    notes: "Recruiter screening complete. Focus on React performance and accessibility examples.",
+    followUpDate: "2026-03-24",
+    salaryRange: "INR 22L - 30L",
+    location: "Bengaluru, India (Hybrid)",
+    jobUrl: "https://careers.razorpay.com/",
+    companySize: "1000+",
+    tags: [
+      { id: "tag-frontend", name: "Frontend", color: "#3b82f6" },
+      { id: "tag-priority", name: "Priority", color: "#22c55e" },
+    ],
+    timeline: [
+      { id: "ev-1", eventType: "applied", note: "Applied via careers page", createdAt: "2026-03-08T10:30:00.000Z" },
+      { id: "ev-2", eventType: "note", note: "Recruiter call scheduled", createdAt: "2026-03-10T06:45:00.000Z" },
+    ],
+  },
+  {
+    id: "demo-2",
+    company: "CRED",
+    role: "Product Engineer I",
+    status: "applied",
+    appliedDate: "2026-03-12",
+    notes: "Tailor project stories around dashboard UX and data flow decisions.",
+    followUpDate: "2026-03-26",
+    salaryRange: "INR 18L - 25L",
+    location: "Bengaluru, India",
+    jobUrl: "https://careers.cred.club/",
+    companySize: "1000+",
+    tags: [{ id: "tag-product", name: "Product", color: "#8b5cf6" }],
+    timeline: [{ id: "ev-3", eventType: "applied", note: "Application submitted", createdAt: "2026-03-12T14:10:00.000Z" }],
+  },
+  {
+    id: "demo-3",
+    company: "Postman",
+    role: "Frontend Engineer",
+    status: "offer",
+    appliedDate: "2026-02-28",
+    notes: "Offer received; evaluating role scope and growth path.",
+    followUpDate: null,
+    salaryRange: "INR 28L - 36L",
+    location: "Remote (India)",
+    jobUrl: "https://www.postman.com/company/careers/",
+    companySize: "1000+",
+    tags: [{ id: "tag-offer", name: "Offer", color: "#22c55e" }],
+    timeline: [{ id: "ev-4", eventType: "offer", note: "Offer shared by hiring manager", createdAt: "2026-03-15T11:30:00.000Z" }],
+  },
+  {
+    id: "demo-4",
+    company: "Swiggy",
+    role: "Software Development Engineer",
+    status: "rejected",
+    appliedDate: "2026-02-20",
+    notes: "Reached final round. Need stronger distributed systems examples for similar roles.",
+    followUpDate: null,
+    salaryRange: "INR 20L - 27L",
+    location: "Bengaluru, India",
+    jobUrl: "https://careers.swiggy.com/",
+    companySize: "1000+",
+    tags: [{ id: "tag-learning", name: "Learning", color: "#ef4444" }],
+    timeline: [{ id: "ev-5", eventType: "rejected", note: "Feedback received via recruiter", createdAt: "2026-03-04T09:00:00.000Z" }],
+  },
+  {
+    id: "demo-5",
+    company: "Zepto",
+    role: "Frontend Engineer II",
+    status: "interview",
+    appliedDate: "2026-03-10",
+    notes: "Take-home submitted. Waiting for panel round.",
+    followUpDate: "2026-03-22",
+    salaryRange: "INR 24L - 32L",
+    location: "Mumbai, India",
+    jobUrl: "https://www.zeptonow.com/careers",
+    companySize: "1000+",
+    tags: [{ id: "tag-fast", name: "Fast-moving", color: "#f59e0b" }],
+    timeline: [{ id: "ev-6", eventType: "note", note: "Take-home sent to team", createdAt: "2026-03-13T16:00:00.000Z" }],
+  },
+  {
+    id: "demo-6",
+    company: "Atlassian",
+    role: "Frontend Software Engineer",
+    status: "applied",
+    appliedDate: "2026-03-17",
+    notes: "Role aligns with collaboration tooling experience.",
+    followUpDate: "2026-03-29",
+    salaryRange: "INR 30L - 40L",
+    location: "Remote",
+    jobUrl: "https://www.atlassian.com/company/careers",
+    companySize: "1000+",
+    tags: [{ id: "tag-remote", name: "Remote", color: "#0ea5e9" }],
+    timeline: [{ id: "ev-7", eventType: "applied", note: "Referred by ex-colleague", createdAt: "2026-03-17T07:30:00.000Z" }],
+  },
+];
+
+function getInitialTheme() {
+  const stored = localStorage.getItem("applytrack-theme");
+  if (stored === "dark" || stored === "light") return stored;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
 
 function App() {
-  const [applications, setApplications] = useState([]);
+  const [applications, setApplications] = useState(DEMO_APPLICATIONS);
   const [editingApplication, setEditingApplication] = useState(null);
   const [viewingApplication, setViewingApplication] = useState(null);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  function loadApplications() {
-    setLoading(true);
-    setError(null);
-    fetch(`${API_BASE}/api/applications`)
-      .then(res => {
-        if (!res.ok) throw new Error("Failed to load");
-        return res.json();
-      })
-      .then(data => {
-        setApplications(data.applications ?? []);
-        setError(null);
-      })
-      .catch(err => {
-        console.error("Failed to load applications:", err);
-        setError("Failed to load applications.");
-        setApplications([]);
-      })
-      .finally(() => setLoading(false));
-  }
+  const [theme, setTheme] = useState(getInitialTheme);
 
   useEffect(() => {
-    const tid = setTimeout(loadApplications, 0);
-    return () => clearTimeout(tid);
-  }, []);
+    const root = document.documentElement;
+    root.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("applytrack-theme", theme);
+  }, [theme]);
+
+  function toggleTheme() {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  }
 
   function addApplication(payload) {
-    fetch(`${API_BASE}/api/applications`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then(res => { if (!res.ok) throw new Error("Failed to add"); return res.json(); })
-      .then(data => setApplications(prev => [...prev, data]))
-      .catch(err => { console.error("Failed to add application:", err); setError("Failed to add application."); });
+    const now = new Date().toISOString();
+    const newItem = {
+      id: crypto.randomUUID?.() ?? `app-${Date.now()}`,
+      ...payload,
+      timeline: [{ id: `ev-${Date.now()}`, eventType: "applied", note: "Application added", createdAt: now }],
+      tags: [],
+    };
+    setApplications((prev) => [newItem, ...prev]);
   }
 
   function updateApplication(updated) {
-    fetch(`${API_BASE}/api/applications/${updated.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updated),
-    })
-      .then(res => { if (!res.ok) throw new Error("Failed to update"); return res.json(); })
-      .then(data => setApplications(prev => prev.map(app => app.id === data.id ? data : app)))
-      .catch(err => { console.error("Failed to update application:", err); setError("Failed to update application."); });
+    setApplications((prev) => prev.map((app) => (app.id === updated.id ? { ...app, ...updated } : app)));
   }
 
   function handleDeleteApplication(id) {
-    fetch(`${API_BASE}/api/applications/${id}`, { method: "DELETE" })
-      .then(res => { if (!res.ok) throw new Error("Failed to delete"); setApplications(prev => prev.filter(app => app.id !== id)); })
-      .catch(err => { console.error("Failed to delete application:", err); setError("Failed to delete application."); });
+    setApplications((prev) => prev.filter((app) => app.id !== id));
   }
 
   function handleExportCsv() {
-    fetch(`${API_BASE}/api/applications/export/csv`)
-      .then(res => res.blob())
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "applications.csv";
-        a.click();
-        URL.revokeObjectURL(url);
-      })
-      .catch(err => console.error("Export failed:", err));
+    const headers = ["id", "company", "role", "status", "appliedDate", "location", "salaryRange", "companySize", "followUpDate"];
+    const rows = applications.map((a) =>
+      headers.map((h) => `"${String(a[h] ?? "").replace(/"/g, '""')}"`).join(",")
+    );
+    const csv = [headers.join(","), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "applications.csv";
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   return (
-    <div className="app min-h-screen flex flex-col" data-build="2025-03-kanban">
+    <div className="app min-h-screen flex flex-col bg-muted/30">
       <Header
         onAddApplication={addApplication}
         onUpdateApplication={updateApplication}
@@ -92,6 +171,8 @@ function App() {
         onClearEdit={() => setEditingApplication(null)}
         addDialogOpen={addDialogOpen}
         onCloseAddDialog={() => setAddDialogOpen(false)}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
       <Routes>
         <Route
@@ -99,9 +180,9 @@ function App() {
           element={
             <Dashboard
               applications={applications}
-              loading={loading}
-              error={error}
-              onRetry={loadApplications}
+              loading={false}
+              error={null}
+              onRetry={() => {}}
               onEditApplication={setEditingApplication}
               onViewApplication={setViewingApplication}
               onExportCsv={handleExportCsv}

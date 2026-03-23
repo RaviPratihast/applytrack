@@ -122,7 +122,8 @@ function KanbanBoardPage({
           onValueChange={handleValueChange}
           getItemValue={(item) => item.id}
         >
-          <KanbanBoard className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 items-start flex-1">
+          <div className="xl:contents -mx-5 px-5 xl:mx-0 xl:px-0 overflow-x-auto overscroll-x-contain pb-2 snap-x snap-mandatory xl:overflow-visible xl:pb-0">
+          <KanbanBoard className="flex flex-row flex-nowrap xl:flex-wrap xl:grid xl:grid-cols-4 gap-4 items-start flex-1 min-w-0 xl:min-w-0">
             {COLUMN_ORDER.map((columnId) => {
               const style = COLUMN_STYLES[columnId] ?? {
                 header: "text-foreground",
@@ -134,7 +135,7 @@ function KanbanBoardPage({
                 <KanbanColumn
                   key={columnId}
                   value={columnId}
-                  className={`rounded-card border-2 ${style.border} ${style.bg} p-4 min-h-[200px] flex flex-col`}
+                  className={`rounded-card border-2 ${style.border} ${style.bg} p-4 min-h-[200px] flex flex-col w-[min(85vw,300px)] shrink-0 snap-start xl:w-auto xl:shrink xl:snap-none xl:min-w-0`}
                 >
                   <div className="flex items-center justify-between mb-3 flex-shrink-0">
                     <div className="flex items-center gap-2">
@@ -160,7 +161,7 @@ function KanbanBoardPage({
                   <div className="flex flex-col gap-2 flex-1 min-h-0 overflow-auto">
                     {items.map((app) => (
                       <KanbanItem key={app.id} value={app.id} asChild>
-                        <div className="bg-white rounded-[10px] border border-app-border p-3 select-none hover:shadow-sm transition-shadow flex items-start gap-2">
+                        <div className="bg-card rounded-[10px] border border-app-border p-3 select-none hover:shadow-sm transition-shadow duration-150 flex items-start gap-2">
                           <KanbanItemHandle asChild>
                             <button
                               type="button"
@@ -183,6 +184,7 @@ function KanbanBoardPage({
               );
             })}
           </KanbanBoard>
+          </div>
           <KanbanOverlay>
             {({ value, variant }) => {
               if (variant === "column") return null;
@@ -191,7 +193,7 @@ function KanbanBoardPage({
                 .find((a) => a.id === value);
               if (!app) return null;
               return (
-                <div className="bg-white rounded-[10px] border border-app-border p-3 shadow-lg flex items-start gap-2 w-[280px]">
+                <div className="bg-card rounded-[10px] border border-app-border p-3 shadow-lg flex items-start gap-2 w-[280px]">
                   <div className="mt-0.5 text-muted-foreground shrink-0">
                     <GripVertical className="h-4 w-4" />
                   </div>

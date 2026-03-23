@@ -95,7 +95,7 @@ function Analytics({ applications }) {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <div className="rounded-lg border bg-card p-6">
+          <div className="rounded-card border border-app-border bg-card p-6">
             <h3 className="text-base font-semibold mb-4">Applications Over Time</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={barData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
@@ -107,7 +107,7 @@ function Analytics({ applications }) {
             </ResponsiveContainer>
           </div>
 
-          <div className="rounded-lg border bg-card p-6">
+          <div className="rounded-card border border-app-border bg-card p-6">
             <h3 className="text-base font-semibold mb-4">Status Breakdown</h3>
             {pieData.length > 0 ? (
               <ResponsiveContainer width="100%" height={200}>
@@ -134,7 +134,7 @@ function Analytics({ applications }) {
           </div>
         </div>
 
-        <div className="rounded-lg border bg-card p-6">
+        <div className="rounded-card border border-app-border bg-card p-6">
           <h3 className="text-base font-semibold mb-4">Conversion Funnel</h3>
           <div className="space-y-3 max-w-md">
             {funnelSteps.map((step, i) => (

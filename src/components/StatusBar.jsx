@@ -14,16 +14,16 @@ function StatusBar({ applications }) {
   }, {});
 
   return (
-    <div className="flex gap-3 h-[100px] flex-shrink-0">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 min-h-0 flex-shrink-0 auto-rows-fr">
       {STATUS_CONFIG.map(({ key, label, color }) => {
         const isOffer = key === APPLICATION_STATUS.OFFER;
         return (
           <div
             key={key}
-            className={`flex-1 min-w-0 flex flex-col justify-between rounded-card border py-5 px-6 ${
+            className={`min-h-[88px] md:h-[100px] md:min-h-[100px] flex flex-col justify-between rounded-card border py-4 px-4 md:py-5 md:px-6 ${
               isOffer
                 ? "bg-app-accent border-app-accent"
-                : "bg-white border-app-border"
+                : "bg-card border-app-border"
             }`}
           >
             <div className="flex items-center gap-2">

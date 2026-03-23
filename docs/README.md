@@ -5,7 +5,7 @@ Project documentation for conventions, design, product, and engineering referenc
 | Doc | Purpose |
 | --- | --- |
 | [**code-style.md**](./code-style.md) | Coding conventions (file size, structure). |
-| [**design-guide.md**](./design-guide.md) | Visual design system: colors, typography, spacing, components, implementation notes. |
+| [**design-guide.md**](./design-guide.md) | **Primary UI spec:** Paper artboard map, desktop/mobile behavior, tokens, components, and `src/` map (with `DESIGN.md`, `claude.md`, `PM.md`, `Engineers/paper.md`). |
 | [**gmail-integration.md**](./gmail-integration.md) | Gmail tracking spec — OAuth2, sync, classification, status suggestions. |
 | [**chrome-extension.md**](./chrome-extension.md) | Chrome extension product spec — scraping, architecture, acceptance criteria. |
 | [**PM/PM.md**](./PM/PM.md) | Product management notes and requirements context. |

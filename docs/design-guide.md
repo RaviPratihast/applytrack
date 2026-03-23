@@ -1,166 +1,220 @@
 # ApplyTrack Design Guide
 
-A single source of truth for visual design, components, and patterns used in ApplyTrack. Use this when designing in Paper or implementing in code.
+Single source of truth for **visual design**, **layout**, and **implementation** for ApplyTrack. Use this when designing in **Paper**, building in **React**, or writing specs.
+
+**Related docs**
+
+| Doc | Role |
+|-----|------|
+| [`docs/Engineers/paper.md`](./Engineers/paper.md) | Desktop **structure & placement** (section order, spacing). |
+| [`docs/Engineers/DESIGN.md`](./Engineers/DESIGN.md) | **Design principles**, craft, accessibility, handoff quality. |
+| [`docs/Engineers/claude.md`](./Engineers/claude.md) | **Frontend engineering** conventions (Tailwind, resilience, structure). |
+| [`docs/PM/PM.md`](./PM/PM.md) | **Product discipline** (clarity, falsifiable bets, execution). |
 
 ---
 
-## 1. Overview
+## 1. Paper ↔ product alignment
 
-- **Product:** ApplyTrack — job application tracker (dashboard, Kanban, analytics, application detail).
-- **Tone:** Clean, minimal, productive. One strong accent (lime) on a neutral base.
-- **Principle:** Restraint and clarity. White space and hierarchy over decoration.
+### 1.1 Live Paper snapshot (MCP `get_basic_info`)
 
----
+*Last read: **Scratchpad** / **Page 1** — use Paper as the visual reference; this table is the canonical artboard list.*
 
-## 2. Color Palette
+| Paper artboard id | Name | Size (W×H) | Notes |
+|-------------------|------|------------|--------|
+| `1-0` | ApplyTrack — Desktop | 1440×960 | Dashboard |
+| `48-0` | ApplyTrack — Mobile | 390×844 | Dashboard mobile |
+| `6F-0` | Add Application Modal — Desktop | 1440×960 | Add / edit dialog |
+| `6G-0` | Add Application Modal — Mobile | 390×844 | Add / edit mobile |
+| `AR-0` | Kanban Board — Desktop | 1440×960 | Kanban |
+| `AS-0` | Kanban Board — Mobile | 390×844 | Kanban mobile |
+| `J1-0` | Analytics — Desktop | 1440×960 | Analytics |
+| `J2-0` | Analytics — Mobile | 390×960 | Analytics mobile (taller frame) |
+| `QY-0` | Application Detail Drawer — Desktop | 1440×960 | Detail sheet |
+| `QZ-0` | Application Detail Drawer — Mobile | 390×960 | Detail sheet mobile |
+| `VK-0` | Design Guide — ApplyTrack | 1440×1400 | Tokens / components on canvas |
 
-### Brand & primary actions
-| Role        | Hex       | Usage |
-|------------|-----------|--------|
-| **Accent** | `#DDF159` | Primary CTA, active filters, focus rings, progress, key highlights |
-| Accent hover | `#DDF159` at 90% opacity | Buttons, interactive states |
+**Fonts in file:** DM Sans, System Sans-Serif (match `index.html` + `tailwind.config.js`).
 
-Use the accent sparingly — one clear moment per view (e.g. main CTA or active filter).
+### 1.2 Principles we inherit from `DESIGN.md`
 
-### Neutrals (light mode)
-| Role        | Hex / CSS var      | Usage |
-|------------|--------------------|--------|
-| Background | `#FFFFFF` / page   | Cards, surfaces |
-| Page background | `hsl(var(--background))` | App background (default white) |
-| Foreground | `hsl(var(--foreground))` | Primary text (~black) |
-| Muted text | `hsl(var(--muted-foreground))` | Secondary text, captions |
-| Border     | `#EBEBEB` / `hsl(var(--border))` | Inputs, dividers, card edges |
-| Dark button | `#111111` | Primary-style buttons (e.g. "Add application") |
+- **Clarity over cleverness** — navigation and status must be obvious.
+- **Consistency over novelty** — one button style, one card style, one accent rule.
+- **Content-first** — stats and lists serve real job data, not decoration.
+- **Accessibility** — WCAG AA; focus states; dialogs/sheets need titles + descriptions where Radix expects them.
+- **Resilient UI** — loading, empty, and error states are first-class (see `claude.md`).
 
-### Status (application pipeline)
-| Status     | Hex       | Use for |
-|------------|-----------|---------|
-| Applied    | `#3b82f6` | Applied count, badges, charts |
-| Interview  | `#eab308` | Interview count, badges, charts |
-| Offer      | `#22c55e` | Offer count, badges, charts |
-| Rejected   | `#ef4444` | Rejected count, badges, charts |
-| Neutral/Default | `#6b7280` | Unknown or inactive |
+### 1.3 Product framing from `PM.md` (applies to UX)
 
-### Semantic
-- **Destructive:** `hsl(var(--destructive))` — delete, dangerous actions.
-- **Charts:** Use `--chart-1` … `--chart-5` for analytics; keep status colors consistent where status is shown.
+- **Clarity is the deliverable** — labels, hierarchy, and flows should not need a meeting to understand.
+- **Ship measurable outcomes** — dashboard/Kanban/analytics should support decisions (where am I in the funnel?).
 
 ---
 
-## 3. Typography
+## 2. Brand & tone
 
-### Font families
-- **Primary:** **DM Sans** (headings and body).
-- **Fallback:** System Sans-Serif.
-
-Load DM Sans (e.g. Google Fonts) and set as default in CSS.
-
-### Scale and usage
-| Element   | Size   | Weight   | Usage |
-|----------|--------|----------|--------|
-| Page title | 2xl (e.g. 1.5rem) | Semibold | "Applications", "Kanban Board", "Analytics" |
-| Card/section title | lg–xl | Semibold | Section headers, drawer title |
-| Body / list | base (1rem) | Regular / Medium | Descriptions, list content |
-| Labels, meta | sm (0.875rem) | Medium | Dates, salary, resume version, labels |
-| Small UI   | xs (0.75rem) | Medium | Badges, pills, column counts |
-| Uppercase labels | sm | Semibold, tracking-wide | Kanban column headers, filters |
-
-### Hierarchy
-- One clear page title per screen.
-- Use weight (semibold vs regular) and size (2xl → base → sm → xs) rather than many colors.
-- Muted text only for secondary info; keep body text readable (avoid &lt; 12px for body).
+- **Product:** Job application tracker (dashboard, Kanban, analytics, detail drawer, add/edit).
+- **Tone:** Calm, minimal, productive. **One** strong accent moment per view (lime).
+- **Elevation:** Light borders, no heavy shadows unless overlay (drawer/modal).
 
 ---
 
-## 4. Spacing & layout
+## 3. Color palette
 
-### Rhythm
-- **Base unit:** 4px; use multiples for consistency (4, 8, 12, 16, 20, 24).
-- **Section gap:** 12px between major sections (e.g. header ↔ stats ↔ main content).
-- **Layout padding:** 20px around the main layout; 24px inside cards/panels.
-- **Inline gaps:** 8px between related elements (icon + label, filter chips); 12px between stat cards or list items.
+### 3.1 Brand & actions
 
-### Border radius
-| Element   | Radius | Notes |
-|----------|--------|--------|
-| Cards, panels, header | 20px | Main surfaces |
-| Buttons, inputs, pills | 10px | Small interactive elements |
-| Code/implementation | 9px (`--radius`) | Tailwind default; can align to 10px for parity with design |
+| Role | Hex / token | Usage |
+|------|-------------|--------|
+| **Accent** | `#DDF159` / `--app-accent` | Primary CTA, active nav, key highlights |
+| Accent hover | ~90% opacity | Hover on accent buttons |
+| **Dark CTA** | `#111111` / `--app-dark` | “Add Application”, Export CSV |
+| **Border** | `#EBEBEB` / `--app-border` | Cards, inputs, header |
 
-### Density
-- Header: 56px height; 24px horizontal padding.
-- Stat cards: 100px height; 20px vertical, 24px horizontal padding.
-- Filter bar: 48px height; inputs ~40px.
-- List rows: comfortable tap/click height (e.g. 48px+ for touch).
+### 3.2 Neutrals (light)
+
+| Role | Implementation |
+|------|----------------|
+| Page shell | `hsl(var(--background))` — subtle off-white acceptable (`bg-muted/25` on `.app`) for card contrast |
+| Surfaces / cards | White `#FFFFFF` / `bg-card` |
+| Text | `text-foreground`, secondary `text-muted-foreground` |
+
+### 3.3 Status (pipeline)
+
+| Status | Hex | Usage |
+|--------|-----|--------|
+| Applied | `#3b82f6` | Stats, badges, charts |
+| Interview | `#eab308` | Idem |
+| Offer | `#22c55e` | Idem; **Offer stat card** may use accent fill (Paper) |
+| Rejected | `#ef4444` | Idem |
+| Default | `#6b7280` | Unknown |
+
+**Rule:** Never rely on color alone — pair with **label** and/or **shape** (badge text, column title).
 
 ---
 
-## 5. Components
+## 4. Typography
+
+- **Family:** **DM Sans** (Google Fonts), fallback `system-ui`, sans-serif.
+- **Scale (max ~5 roles per screen):**
+
+| Role | Tailwind / size | Weight |
+|------|-----------------|--------|
+| Page title | `text-2xl` | `font-semibold` |
+| Section / card title | `text-lg`–`text-xl` | `font-semibold` |
+| Body | `text-sm`–`text-base` | normal / `font-medium` |
+| Meta / labels | `text-xs`–`text-sm` | `font-medium`, `text-muted-foreground` |
+| Column / filter labels | `text-sm` `uppercase` `tracking-wide` | `font-semibold` |
+
+---
+
+## 5. Spacing, radius, layout
+
+### 5.1 Grid
+
+- **Base unit:** 4px — use `4, 8, 12, 16, 20, 24`.
+- **Section gap:** `12px` (`gap-3`) between header → stats → filter → main.
+- **Page gutter:** `20px` (`px-5`) horizontal; align with Paper.
+- **Content max width:** `1400px` (`max-w-[1400px] mx-auto`).
+- **Main grid (dashboard):** two columns ~2/3 + ~1/3, `gap-6` (24px).
+
+### 5.2 Radius
+
+| Tier | px | Tailwind |
+|------|-----|----------|
+| Surfaces (cards, header) | 20 | `rounded-card` |
+| Controls | 10 | `rounded-[10px]` / `--radius` |
+
+### 5.3 Density
+
+| Block | Spec |
+|-------|------|
+| Header bar | ~56px height desktop; wrap/stack on narrow mobile |
+| Stat cards | ~100px height desktop; **2×2 grid** on small mobile |
+| Filter bar | ~48px min height desktop; **stack** controls on mobile |
+| List rows | min **48px** tap target |
+
+---
+
+## 6. Screens (desktop vs mobile)
+
+### 6.1 Desktop (1440 reference)
+
+1. **Sticky header** — logo, **Dashboard | Kanban | Analytics**, **Add Application** (dark). `z-10`.
+2. **Dashboard:** Status bar (4 cards) → Filter bar → main grid (recent list + sidebar: follow-ups, metrics, CTA).
+3. **Kanban:** Four columns, equal visual weight; cards white, column tint borders.
+4. **Analytics:** Summary row + charts + funnel; cards `rounded-card` + border.
+5. **Detail drawer:** Right sheet, max width ~`lg`, scroll body, timeline + notes.
+
+### 6.2 Mobile (390×844 / 390×960 reference)
+
+| Area | Behavior |
+|------|----------|
+| Header | **Stack**: logo + compact Add on first row; **nav** full-width **horizontal scroll** OR second row; avoid clipping. |
+| Stats | **2 columns × 2 rows**; slightly reduced vertical padding if needed. |
+| Filters | **Vertical stack**: search full width; status + sort row; Export full width. |
+| Dashboard grid | **Single column**; same section order as desktop. |
+| Kanban | **Horizontal scroll** columns (`snap-x`, fixed min column width) so behavior matches narrow Paper frames. |
+| Analytics | Charts **stack**; summary cards **2-wide** then scroll; touch-friendly spacing. |
+| Drawer | Full-width sheet; same content order; meta grid can collapse to **one column**. |
+
+---
+
+## 7. Components (checklist)
 
 ### Buttons
-- **Primary:** Background `#DDF159`, text black, `font-medium`. Hover: 90% opacity. Radius 10px (or `rounded-sm` in code).
-- **Secondary / outline:** Border `#EBEBEB`, transparent or white background; same radius.
-- **Dark primary (design):** Background `#111111`, text white, padding ~8px vertical, 18px horizontal, radius 10px.
-- Size: at least 32px height for primary actions.
 
-### Cards / panels
-- Background `#FFFFFF`, radius 20px, padding 24px (20px vertical acceptable).
-- No heavy shadows; optional very subtle border or shadow for separation.
+- **Accent:** `bg-app-accent text-black`, hover opacity.
+- **Dark:** `bg-app-dark text-white` — primary global actions (Add, Export).
+- **Ghost / outline:** for secondary in-card actions (View, Edit).
 
-### Inputs & search
-- Height 40px, radius 10px, padding 12px horizontal.
-- Border 1.5px solid `#EBEBEB`; background white.
-- Placeholder and helper text: muted color.
+### Cards & panels
 
-### Badges & status pills
-- Status colors (see above); text white or dark depending on contrast.
-- Radius: pill (e.g. `rounded-full`) or small (e.g. 4px).
-- Typography: xs, font-medium.
+- White surface, `border-app-border`, `rounded-card`, padding `p-6` (or `px-6 py-5` for dense rows).
 
-### Lists (applications, Kanban cards)
-- Clear vertical lanes: fixed-width slots for icon/status/actions so columns align across rows.
-- Use gap + fixed widths (e.g. `flexShrink: 0`) for icons and trailing actions.
+### Inputs
 
----
+- Height ~40px, `rounded-[10px]`, border `1.5px` `app-border`.
 
-## 6. Artboards (Paper reference)
+### Dialogs (Add / Edit)
 
-Use these for layout and responsive behavior:
+- `DialogTitle` + **`DialogDescription`** (can be brief) for Radix a11y.
+- Form uses same field order as Paper modal artboards.
 
-| Artboard | Size    | Purpose |
-|----------|---------|---------|
-| ApplyTrack — Desktop | 1440×960 | Main dashboard |
-| ApplyTrack — Mobile | 390×844  | Mobile dashboard |
-| Add Application Modal — Desktop | 1440×960 | Add flow |
-| Add Application Modal — Mobile | 390×844  | Add flow mobile |
-| Kanban Board — Desktop | 1440×960 | Kanban view |
-| Kanban Board — Mobile | 390×844  | Kanban mobile |
-| Analytics — Desktop | 1440×960 | Analytics |
-| Analytics — Mobile | 390×960  | Analytics mobile |
-| Application Detail Drawer — Desktop | 1440×960 | Detail drawer |
-| Application Detail Drawer — Mobile | 390×960  | Detail drawer mobile |
+### Sheet (detail)
+
+- `SheetTitle` + `SheetDescription`; scroll long content; close control visible.
+
+### Lists & Kanban
+
+- **Vertical lanes** for icons/status/date in list rows (dashboard recent list).
+- Kanban cards: company **bold**, role muted, date **xs** muted — use **date-only helpers** (`src/lib/dates.js`) to avoid timezone off-by-one.
 
 ---
 
-## 7. Implementation notes
+## 8. Implementation map (`src/`)
 
-- **CSS variables:** `src/index.css` defines `--background`, `--foreground`, `--radius`, etc. Prefer these for theming and dark mode.
-- **Tailwind:** `tailwind.config.js` maps these variables to `background`, `foreground`, `primary`, `muted`, `border`, `destructive`, `chart-*`. Use semantic names (e.g. `bg-primary`, `text-muted-foreground`) instead of raw hex where possible.
-- **Accent in code:** The lime accent is currently `#DDF159` in components (Header, FilterBar, ApplicationForm, Dashboard, KanbanColumn, ApplicationDetailDrawer). Consider a single token (e.g. `--accent` or Tailwind `accent`) for consistency and future theming.
-- **Status colors:** Defined in `src/pages/Analytics.jsx`; reuse the same map for badges and Kanban so status color is consistent everywhere.
-
----
-
-## 8. Checklist for new UI
-
-- [ ] One clear accent moment per view.
-- [ ] Text hierarchy (title → body → caption) with size and weight.
-- [ ] Spacing: 12px section gap, 24px card padding, 8px inline gap.
-- [ ] Radius: 20px surfaces, 10px controls.
-- [ ] Vertical alignment in lists (fixed-width slots for icons/actions).
-- [ ] Status colors from palette; no new ad-hoc colors.
-- [ ] DM Sans (or fallback) for all text.
+| Area | Files |
+|------|--------|
+| Tokens / base | `src/index.css`, `tailwind.config.js` |
+| Shell | `src/App.jsx` |
+| Header / add flow | `src/components/Header.jsx`, `ApplicationForm.jsx` |
+| Dashboard | `src/pages/Dashboard.jsx`, `StatusBar.jsx`, `FilterBar.jsx`, `ApplicationCard.jsx` |
+| Kanban | `src/pages/KanbanBoard.jsx` |
+| Analytics | `src/pages/Analytics.jsx` |
+| Detail | `src/components/ApplicationDetailDrawer.jsx`, `src/components/ui/sheet.jsx` |
+| Dates | `src/lib/dates.js` |
 
 ---
 
-*Last synced with Paper artboards and `src` implementation. Update this guide when the design system or tokens change.*
+## 9. Checklist for new UI
+
+- [ ] Matches **Paper** artboard for that breakpoint (desktop + mobile).
+- [ ] Uses **tokens** (`app-accent`, `app-border`, `rounded-card`) — no one-off hex unless status chart colors.
+- [ ] **Section gaps** `gap-3`, main grids `gap-6`.
+- [ ] **Touch targets** ≥ 48px where tappable.
+- [ ] **Loading / empty / error** states (per `DESIGN.md` + `claude.md`).
+- [ ] **WCAG:** contrast, focus ring, dialog/sheet description.
+- [ ] **Date-only** fields use `parseDateOnlyLocal` / format helpers — no raw `new Date('YYYY-MM-DD')` for display.
+
+---
+
+*Update this file when Paper artboards or production UI change. For structural placement only, see `docs/Engineers/paper.md`.*

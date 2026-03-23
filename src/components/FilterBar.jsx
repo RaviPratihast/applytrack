@@ -22,18 +22,19 @@ const SORT_OPTIONS = [
 
 function FilterBar({ search, onSearchChange, statusFilter, onStatusFilterChange, sortBy, onSortByChange, onExportCsv }) {
   return (
-    <div className="flex items-center gap-2 flex-shrink-0 min-h-[48px]">
-      <div className="relative flex-1 min-w-48 h-10">
+    <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center flex-shrink-0 sm:min-h-[48px]">
+      <div className="relative flex-1 min-w-0 sm:min-w-48 h-10 w-full">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
         <Input
-          className="pl-9 h-10 rounded-[10px] border-[1.5px] border-app-border bg-white"
+          className="pl-9 h-10 rounded-[10px] border-[1.5px] border-app-border bg-background"
           placeholder="Search by company or role..."
           value={search}
           onChange={e => onSearchChange(e.target.value)}
         />
       </div>
+      <div className="flex flex-wrap gap-2 w-full sm:w-auto">
       <Select value={statusFilter} onValueChange={onStatusFilterChange}>
-        <SelectTrigger className="w-[130px] h-10 rounded-[10px] border-[1.5px] border-app-border bg-white">
+        <SelectTrigger className="w-full min-w-0 sm:w-[130px] h-10 rounded-[10px] border-[1.5px] border-app-border bg-background">
           <span className="text-muted-foreground">Status: </span>
           <SelectValue placeholder="All" />
         </SelectTrigger>
@@ -44,7 +45,7 @@ function FilterBar({ search, onSearchChange, statusFilter, onStatusFilterChange,
         </SelectContent>
       </Select>
       <Select value={sortBy} onValueChange={onSortByChange}>
-        <SelectTrigger className="w-[150px] h-10 rounded-[10px] border-[1.5px] border-app-border bg-white">
+        <SelectTrigger className="w-full min-w-0 sm:w-[150px] h-10 rounded-[10px] border-[1.5px] border-app-border bg-background">
           <span className="text-muted-foreground">Sort: </span>
           <SelectValue placeholder="Newest first" />
         </SelectTrigger>
@@ -57,11 +58,12 @@ function FilterBar({ search, onSearchChange, statusFilter, onStatusFilterChange,
       <button
         type="button"
         onClick={onExportCsv}
-        className="rounded-[10px] h-10 px-4 bg-app-dark text-white text-sm font-medium hover:opacity-90 transition-opacity inline-flex items-center gap-2 shrink-0"
+        className="rounded-[10px] h-10 px-4 bg-app-dark text-white text-sm font-medium hover:opacity-90 transition-opacity inline-flex items-center justify-center gap-2 shrink-0 w-full sm:w-auto"
       >
         <Download className="h-4 w-4" />
         Export CSV
       </button>
+      </div>
     </div>
   );
 }

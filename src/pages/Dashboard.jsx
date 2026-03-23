@@ -43,7 +43,8 @@ function isOverdue(dateString) {
 
 function getFollowUpLabel(dateString) {
   if (!dateString) return "";
-  const d = new Date(dateString);
+  const d = parseDateOnlyLocal(dateString);
+  if (!d) return "";
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   d.setHours(0, 0, 0, 0);
@@ -78,7 +79,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
   const followUps = useMemo(() => {
     return applications
       .filter((a) => a.followUpDate)
-      .sort((a, b) => new Date(a.followUpDate) - new Date(b.followUpDate))
+      .sort((a, b) => compareDatesAsc(a.followUpDate, b.followUpDate))
       .slice(0, 5);
   }, [applications]);
 
@@ -160,7 +161,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
           {/* Left column: ~2/3 */}
           <div className="lg:col-span-2 flex flex-col gap-6">
             {/* Recent Applications */}
-            <div className="rounded-card border border-app-border bg-white overflow-hidden">
+            <div className="rounded-card border border-app-border bg-card overflow-hidden">
               <div className="px-6 pt-5 pb-4 border-b border-app-border flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-foreground">Recent Applications</h2>
                 <span className="text-sm text-muted-foreground">{filtered.length} total</span>
@@ -179,7 +180,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
                         key={app.id}
                         type="button"
                         onClick={() => onViewApplication(app)}
-                        className="w-full min-h-[48px] px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/50 active:bg-muted/70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                        className="w-full min-h-[48px] px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/60 active:bg-muted/80 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                       >
                         <div
                           className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold shrink-0"
@@ -214,7 +215,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
             </div>
 
             {/* Kanban Board teaser */}
-            <div className="rounded-card border border-app-border bg-white p-6">
+            <div className="rounded-card border border-app-border bg-card p-6">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold mb-1">Kanban Board</h2>
@@ -239,7 +240,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
           {/* Right column: ~1/3 */}
           <div className="flex flex-col gap-6">
             {/* Follow-ups */}
-            <div className="rounded-card border border-app-border bg-white overflow-hidden">
+            <div className="rounded-card border border-app-border bg-card overflow-hidden">
               <div className="p-6 pb-4 border-b border-app-border flex items-center justify-between">
                 <h2 className="text-lg font-semibold">Follow-ups</h2>
                 {overdueCount > 0 && (
@@ -260,7 +261,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
                         key={app.id}
                         type="button"
                         onClick={() => onViewApplication(app)}
-                        className={`w-full min-h-[48px] px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/50 transition-colors ${
+                        className={`w-full min-h-[48px] px-6 py-3 flex items-center gap-3 text-left hover:bg-muted/60 transition-all duration-150 ${
                           overdue ? "bg-destructive/5" : isTomorrow ? "bg-[#eab308]/5" : ""
                         }`}
                       >
@@ -300,7 +301,7 @@ function Dashboard({ applications, loading, error, onRetry, onViewApplication, o
             <button
               type="button"
               onClick={onAddApplicationOpen}
-              className="rounded-card bg-app-accent border border-app-accent p-6 flex items-center justify-between gap-4 text-left hover:opacity-95 transition-opacity"
+              className="rounded-card bg-app-accent border border-app-accent p-6 flex items-center justify-between gap-4 text-left hover:shadow-sm hover:-translate-y-[1px] active:translate-y-0 transition-all"
             >
               <div>
                 <p className="font-semibold text-black">Track a new role</p>
