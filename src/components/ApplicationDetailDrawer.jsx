@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { APPLICATION_STATUS } from "@/types/application";
-import { ExternalLink, Clock, MapPin, DollarSign, Briefcase, Calendar } from "lucide-react";
+import { ExternalLink, Clock, MapPin, IndianRupee, Briefcase, Calendar } from "lucide-react";
 import { formatLongDate } from "@/lib/dates";
 
 
@@ -131,7 +131,7 @@ function ApplicationDetailDrawer({ application, onClose }) {
                 <MetaRow icon={Calendar} label="Applied" value={appliedDate} />
                 <MetaRow icon={Calendar} label="Follow-up" value={followUpDate} />
                 <MetaRow icon={MapPin}   label="Location"  value={application.location} />
-                <MetaRow icon={DollarSign} label="Salary" value={application.salaryRange} />
+                <MetaRow icon={IndianRupee} label="Salary" value={application.salaryRange} />
                 <MetaRow icon={Briefcase} label="Company size" value={application.companySize} />
               </div>
 

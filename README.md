@@ -69,29 +69,6 @@ Package manager: **pnpm** (root and `extension/`; backend uses npm lockfile as c
 
 ---
 
-## Environment variables
-
-### Backend (`backend/`)
-
-Create `backend/.env` (not committed):
-
-```env
-DATABASE_URL=postgresql://USER:PASSWORD@localhost:5432/applytrack
-PORT=3001
-```
-
-### Web app (repo root)
-
-Optional — defaults to `http://localhost:3001`:
-
-```env
-VITE_API_BASE=http://localhost:3001
-```
-
-Put this in a **root** `.env` or `.env.local` for Vite.
-
----
-
 ## Run locally
 
 ### 1. Database
